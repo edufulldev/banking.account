@@ -1,0 +1,32 @@
+
+name: Banking Account CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build, Test and Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar e executar testes
+        run: mvn -B clean verify
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: Construir imagem Docker
+        run: docker build -t banking-account-service:1.0 .

@@ -1,0 +1,173 @@
+Vamos desenvolver um sistema bancário baseado em microsserviços, utilizando Java 17+, Spring Boot, arquitetura hexagonal, Kafka, Docker, Kubernetes e observabilidade.
+
+A ideia é construir um projeto próximo de um ambiente bancário corporativo, mas sem complexidade desnecessária. 
+
+1. Projeto: Banking Platform
+O sistema será uma API bancária simplificada, com operações de abertura de contas, consulta de saldo, depósitos, transferências e histórico de transações.
+Funcionalidades
+- Cadastrar clientes.
+- Criar contas bancárias.
+- Consultar saldo.
+- Realizar depósitos.
+- Transferir valores entre contas.
+- Consultar extrato.
+- Publicar eventos bancários no Kafka.
+- Consumir eventos e gerar notificações simuladas.
+
+Teremos três microsserviços principais:
+Microsserviço	Responsabilidade
+account-service	Clientes, contas e saldos
+transaction-service	Depósitos, transferências e extratos
+notification-service	Consumo de eventos Kafka e notificações simuladas
+
+O api-gateway será a porta de entrada. Inicialmente, a comunicação será REST; depois adicionaremos eventos assíncronos com Kafka.
+
+Para manter o projeto simples, não implementaremos um core bancário real, com liquidação financeira, contabilidade de partidas dobradas ou integração com sistemas de pagamento. 
+Vamos simular operações bancárias com consistência e testes.
+
+3. Tecnologias utilizadas
+
+Tecnologia	Aplicação
+Java 17	Linguagem principal
+Spring Boot	Construção dos microsserviços
+Spring Web	APIs REST
+Spring Data JPA	Persistência
+PostgreSQL	Banco de dados
+Docker Compose	Infraestrutura local
+Kafka	Mensageria e eventos
+Kafka Streams	Processamento de eventos
+OpenAPI / Swagger	Documentação das APIs
+JUnit 5 / Mockito	Testes unitários
+Testcontainers	Testes de integração
+Kubernetes	Orquestração local
+AWS EKS	Estudo de implantação em nuvem
+OpenShift	Conceitos e manifests compatíveis
+Actuator / Prometheus / Grafana	Observabilidade
+
+Sobre EKS e OpenShift: primeiro utilizaremos Kubernetes local, evitando custos de nuvem. Posteriormente, prepararemos a aplicação para AWS EKS e estudaremos as particularidades do OpenShift.
+
+4. Arquitetura hexagonal
+Cada microsserviço terá uma estrutura semelhante a esta:
+
+account-service/
+└── src/
+    ├── main/
+    │   ├── java/com/banking/account/
+    │   │   ├── domain/
+    │   │   │   ├── model/
+    │   │   │   └── port/
+    │   │   ├── application/
+    │   │   │   └── usecase/
+    │   │   ├── adapter/
+    │   │   │   ├── in/
+    │   │   │   │   └── web/
+    │   │   │   └── out/
+    │   │   │       └── persistence/
+    │   │   └── config/
+    │   └── resources/
+    └── test/
+
+    Na prática, vamos separar:
+- Domain: regras de negócio, entidades e interfaces.
+- Application: casos de uso, como criar conta e consultar saldo.
+- Adapters: controllers REST, repositórios JPA e integrações Kafka.
+- Config: configuração dos componentes Spring.
+
+5. Nosso roteiro de desenvolvimento
+
+1 Preparação do ambiente Atual: Validar Java, Maven, Docker, Docker Compose e IntelliJ.
+
+
+2
+Criar o account-service: Spring Boot, arquitetura hexagonal, REST e Swagger.
+
+3
+Persistência e testes: PostgreSQL no Docker, JPA, JUnit 5, Mockito e Testcontainers.
+
+4
+Criar o transaction-service: Depósitos, transferências, validações e testes.
+
+5
+Integração entre microsserviços: Comunicação REST e API Gateway.
+
+6
+Kafka e mensageria: Publicação e consumo de eventos, idempotência e Kafka Streams.
+
+7
+Observabilidade: Actuator, métricas, Prometheus, Grafana e rastreamento distribuído.
+
+8
+Docker e Kubernetes: Dockerfiles, Compose, Deployments, Services, ConfigMaps e Secrets.
+
+9
+AWS EKS e OpenShift: Preparação de manifests, conceitos de implantação e diferenças entre plataformas.
+
+10
+CI/CD e finalização: Pipeline de build e testes, documentação e publicação no GitHub.
+
+2. Dependências iniciais
+Selecione estas dependências no Spring Initializr:
+Dependência	Finalidade
+Spring Web	Criar APIs REST
+Spring Data JPA	Persistência com Hibernate
+PostgreSQL Driver	Conexão com PostgreSQL
+Validation	Validar requisições com Jakarta Validation
+Lombok	Reduzir código repetitivo
+Spring Boot Actuator	Health checks e métricas
+Spring Boot DevTools	Facilitar desenvolvimento
+Spring Boot Starter Test	JUnit 5, Mockito e testes Spring
+Testcontainers	Testes de integração com containers
+
+3. Dependências das próximas etapas
+Não adicione estas ainda.
+Etapa	Tecnologia
+Mensageria	Spring for Apache Kafka
+Processamento de eventos	Kafka Streams
+Segurança	Spring Security
+API Gateway	Spring Cloud Gateway
+Observabilidade	Micrometer Prometheus e OpenTelemetry
+Kubernetes / EKS	Configuração externa via manifests YAML 
+
+
+########################################### DESENVOLVIMENTO ####################################################################
+
+Fase 1 — Fundamentos e operações bancárias
+CONCLUÍDA
+Etapa	Implementação	Status
+1	Criar projeto Spring Boot com Java 17	
+2	Configurar Maven e dependências	
+3	Configurar PostgreSQL no Docker	
+4	Estruturar arquitetura hexagonal	
+5	Criar domínio de contas bancárias	
+6	Implementar persistência com Spring Data JPA	
+7	Implementar criação de contas	
+8	Implementar consulta de contas	
+9	Implementar listagem de contas	
+10	Implementar depósitos	
+11	Implementar saques	
+12	Implementar transferências bancárias	
+13	Implementar validações e tratamento de exceções	
+14	Implementar testes unitários	
+15	Implementar testes de integração e rollback	
+16	Implementar extrato bancário e histórico de movimentações	
+
+Fase 2 — Segurança e documentação
+
+Etapa 17 — Spring Security e JWT
+Etapa 18 — Swagger / OpenAPI
+
+Fase 3 — Infraestrutura e microserviços
+Etapa 19 — Docker Compose e Testcontainers
+Etapa 20 — Arquitetura de microserviços
+
+Fase 4 — Mensageria e arquitetura orientada a eventos
+Etapa 21 — Apache Kafka
+Etapa 22 — Kafka Streams
+
+Fase 5 — Observabilidade e cloud
+Etapa 23 — Observabilidade
+Etapa 24 — Kubernetes
+Etapa 25 — AWS EKS e OpenShift
+
+Fase 6 — Entrega e automação
+Etapa 26 — CI/CD e GitHub
